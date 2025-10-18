@@ -29,21 +29,16 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // If you use CommunityToolkit, line below is needed to remove Avalonia data validation.
-            // Without this line you will get duplicate validations from both Avalonia and CT
-            BindingPlugins.DataValidators.RemoveAt(0);
+            // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
+            // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
+            DisableAvaloniaDataAnnotationValidation();
             
             // 1) Build Autofac container
             var builder = new ContainerBuilder();
             
-            builder.Register(c => new AppDbContext(DbConfig.GetConnectionString()))
-                .AsSelf()
-                .InstancePerDependency();
-               
             // Register services (singletons by default for app-wide services)
-            builder.RegisterType<TodoService>().AsSelf().SingleInstance();
-            builder.RegisterType<ClockService>().As<IClockService>().SingleInstance();
-            
+            builder.RegisterModule<InfrastructureModule>();
+     
             // Register view-models (usually transient)
             builder.RegisterType<MainWindowViewModel>().AsSelf();
             // builder.RegisterType<HomeViewModel>().AsSelf();
@@ -65,15 +60,6 @@ public partial class App : Application
             var vm = _container.Resolve<MainWindowViewModel>();
             desktop.MainWindow = _container.Resolve<MainWindow>();
             desktop.MainWindow.DataContext = vm;
-
-            // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
-            // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
-            // DisableAvaloniaDataAnnotationValidation();
-            
-            // desktop.MainWindow = new MainWindow
-            // {
-            //     DataContext = new MainWindowViewModel(),
-            // };
         }
         
         base.OnFrameworkInitializationCompleted();

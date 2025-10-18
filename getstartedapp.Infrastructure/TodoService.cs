@@ -8,7 +8,7 @@ using getstartedapp.Infrastructure.Data;
 
 namespace getstartedapp.Infrastructure;
 
-public class TodoService
+public class TodoService : ITodoService
 {
     private readonly Func<AppDbContext> _dbFactory;
 

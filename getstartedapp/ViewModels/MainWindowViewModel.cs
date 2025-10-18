@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using getstartedapp.Infrastructure;
@@ -14,11 +15,11 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private readonly IClockService _clock;
     
-    private readonly TodoService _todo;
+    private readonly ITodoService _todo;
     
     public ObservableCollection<TodoItem> Items { get; } = new();
     
-    public MainWindowViewModel(IClockService clock, TodoService todo)
+    public MainWindowViewModel(IClockService clock, ITodoService todo)
     {
         _clock = clock;
         _todo = todo;
@@ -46,8 +47,25 @@ public sealed class DesignMainWindowViewModel : MainWindowViewModel
         public DateTime UtcNow => new DateTime(2030, 1, 1, 12, 0, 0, DateTimeKind.Utc);
     }
     
+    private sealed class FakeTodo : ITodoService
+    {
+        public Task<List<TodoItem>> GetAllAsync()
+        {
+            return Task.FromResult(new List<TodoItem>()
+            {
+                new TodoItem(1, "One", false),
+                new TodoItem(2, "Two", true),
+            });
+        }
+
+        public Task AddAsync(string title)
+        {
+            return Task.CompletedTask;
+        }
+    }
+    
     public DesignMainWindowViewModel()
-        : base(new FakeClock(), new TodoService(() => new AppDbContext(DbConfig.GetConnectionString())))
+        : base(new FakeClock(), new FakeTodo())
     {
         // Populate more sample data here if needed
     }
