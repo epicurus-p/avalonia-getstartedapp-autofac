@@ -1,5 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="using:getstartedapp.Converters"
+             xmlns:vm="using:getstartedapp.ViewModels"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions;assembly=Avalonia.Xaml.Interactions"
              x:Class="getstartedapp.App"
              xmlns:local="using:getstartedapp"
              RequestedThemeVariant="Default">
@@ -8,8 +11,14 @@
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
+             
+     <Application.Resources>
+         <!-- converter: bool true -> 0.6, false -> 1.0 -->
+         <conv:BoolToOpacityConverter x:Key="BoolToOpacity"/>
+     </Application.Resources>
   
-    <Application.Styles>
-        <FluentTheme />
-    </Application.Styles>
+     <Application.Styles>
+         <FluentTheme/>
+         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+     </Application.Styles>
 </Application>
