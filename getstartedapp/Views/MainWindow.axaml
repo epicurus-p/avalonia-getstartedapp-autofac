@@ -18,12 +18,9 @@
             <!-- we’ll also manually focus search in code-behind if you like -->
         </KeyBinding>
     </Window.KeyBindings>
-
     
     <Design.DataContext>
-        This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -
-        <vm:DesignMainWindowViewModel/>
+         <vm:DesignMainWindowViewModel/>
     </Design.DataContext>
     
     <DockPanel Margin="12" LastChildFill="True">

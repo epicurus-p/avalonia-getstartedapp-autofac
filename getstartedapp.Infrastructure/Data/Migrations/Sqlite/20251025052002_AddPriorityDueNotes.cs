@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace getstartedapp.Infrastructure.Data.Migrations
+namespace getstartedapp.Infrastructure.Data.Migrations.Sqlite
 {
     /// <inheritdoc />
     public partial class AddPriorityDueNotes : Migration
