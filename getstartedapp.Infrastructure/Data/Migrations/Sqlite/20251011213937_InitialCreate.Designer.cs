@@ -7,9 +7,9 @@ using getstartedapp.Infrastructure.Data;
 
 #nullable disable
 
-namespace getstartedapp.Infrastructure.Data.Migrations
+namespace getstartedapp.Infrastructure.Data.Migrations.Sqlite
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(SqliteAppDbContext))]
     [Migration("20251011213937_InitialCreate")]
     partial class InitialCreate
     {
