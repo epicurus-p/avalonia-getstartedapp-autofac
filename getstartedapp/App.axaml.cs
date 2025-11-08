@@ -1,5 +1,6 @@
 using Autofac;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
@@ -13,7 +14,6 @@ using getstartedapp.Infrastructure.Data;
 using getstartedapp.Services;
 using getstartedapp.ViewModels;
 using getstartedapp.Views;
-
 
 namespace getstartedapp;
 
@@ -33,11 +33,16 @@ public partial class App : Application
             // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
             DisableAvaloniaDataAnnotationValidation();
             
-            // 1) Build Autofac container
+            DotNetEnv.Env.Load();
+          
+            
+            var config = ConfigurationLoader.Load();
+            
+            // Build Autofac container
             var builder = new ContainerBuilder();
             
             // Register services (singletons by default for app-wide services)
-            builder.RegisterModule<InfrastructureModule>();
+            builder.RegisterModule(new InfrastructureModule(config));
      
             // Register view-models (usually transient)
             builder.RegisterType<MainWindowViewModel>().AsSelf();

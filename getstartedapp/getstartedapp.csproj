@@ -43,4 +43,11 @@
     <ProjectReference Include="..\getstartedapp.Services\getstartedapp.Services.csproj" />
     <ProjectReference Include="..\getstartedapp.Domain\getstartedapp.Domain.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove=".env" />
+    <Content Include=".env">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

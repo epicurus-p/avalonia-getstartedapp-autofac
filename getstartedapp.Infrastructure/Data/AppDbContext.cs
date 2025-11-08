@@ -3,13 +3,24 @@ using getstartedapp.Domain;
 
 namespace getstartedapp.Infrastructure.Data;
 
-public class AppDbContext(string connectionString) : DbContext
+public class AppDbContext : DbContext
 {
     public DbSet<TodoItem> Todos { get; set; } = null!;
-
+    
+    public AppDbContext() { }
+    
+    public AppDbContext(DbContextOptions options) : base(options) { }
+ /*   
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite(connectionString); // EF Core SQLite provider. 
-    
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    { optionsBuilder
+            .UseSqlServer(
+                connectionString,
+                options => options.EnableRetryOnFailure());
+    }
+*/    
     protected override void OnModelCreating(ModelBuilder b)
     {
         b.Entity<TodoItem>(e =>
@@ -23,6 +34,8 @@ public class AppDbContext(string connectionString) : DbContext
             e.HasIndex(x => x.DueDate);
             e.HasIndex(x => x.Priority);
         });
+        
+        base.OnModelCreating(b);
     }
 
 }
